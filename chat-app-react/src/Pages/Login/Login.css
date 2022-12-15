@@ -1,0 +1,12 @@
+.login{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paper{
+    width: 800px;
+    padding: 20px;
+    border-radius: 5px;
+}
