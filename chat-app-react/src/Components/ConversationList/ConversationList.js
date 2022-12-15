@@ -2,6 +2,9 @@ import React from 'react';
 import { List, Divider, Paper } from '@mui/material';
 import ConversationListItem from '../ConversationListItem/ConversationListItem';
 
+/**
+ * Composant ConversationList. Il contient la liste des conversations.
+ */
 export default class ConversationList extends React.Component {
 
     constructor(props) {
@@ -11,6 +14,9 @@ export default class ConversationList extends React.Component {
         };
     }
 
+    /**
+     * Récupère la liste des conversations et les stocke dans le state.
+     */
     componentDidMount() {
         this.fetchConversations(
             () => {
@@ -19,6 +25,10 @@ export default class ConversationList extends React.Component {
         );
     }
 
+    /**
+     * Refresh la liste des conversations si la props refreshConversations est à true.
+     * @param {*} prevProps 
+     */
     componentDidUpdate(prevProps) {
         if(this.props.refreshConversations){
             this.fetchConversations();
@@ -26,6 +36,11 @@ export default class ConversationList extends React.Component {
         }
     }
 
+    /**
+     * fait une requête pour récupérer la liste des conversations.
+     * execute la fonction loadConversation si elle est passée en paramètre.
+     * @param {function} loadConversation : callback pour charger la conversation après avoir récupéré la liste des conversations.
+     */
     fetchConversations(loadConversation) {
         fetch(process.env.REACT_APP_API_URL + '/messages/conversations/', {
             headers: {

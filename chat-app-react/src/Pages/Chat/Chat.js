@@ -5,7 +5,9 @@ import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
 import ConversationList from '../../Components/ConversationList/ConversationList';
 import Messages from '../../Components/Messages/Messages';
 
-
+/**
+ * Page Chat. Elle affiche la liste des conversations et les messages de la conversation sélectionnée.
+ */
 export default class ChatPage extends React.Component {
 
     constructor(props) {
@@ -23,8 +25,10 @@ export default class ChatPage extends React.Component {
         this.didRefreshConversations = this.didRefreshConversations.bind(this);
     }
 
+    /**
+     * Récupère les informations de l'utilisateur connecté.
+     */
     getUser() {
-
         this.setState({ loading: true });
         fetch(process.env.REACT_APP_API_URL + '/users/', {
             headers: {
@@ -43,9 +47,15 @@ export default class ChatPage extends React.Component {
                 this.setState({ loading: false });
             });
     }
-
+    
+    /**
+     * Envoie un message dans la conversation sélectionnée.
+     * @param {string} message : message à envoyer.
+     */
     sendMessage(message) {
         if(this.state.conversationId == null) return;
+        
+        //Pour empecher l'envoi de message lorsqu'on n'est pas connecté.
         if (this.state.ws == null) {
             this.connectToWebSocket();
         }
@@ -56,8 +66,13 @@ export default class ChatPage extends React.Component {
         }));
     }
 
+    /**
+     * Crée la connexion avec le serveur WebSocket et la stocke dans le state. 
+     */
     connectToWebSocket() {
         const ws = new WebSocket("ws://localhost:8080");
+
+        //Lorsque la connexion est établie, on envoie le token de l'utilisateur.
         ws.onopen = () => {
             if (localStorage.getItem('token') == null) return;
 
@@ -66,11 +81,14 @@ export default class ChatPage extends React.Component {
                 token: localStorage.getItem('token'),
             }));
         }
+
+        //Lorsque la connexion est fermée, on supprime la connexion du state.
         ws.onclose = () => {
             console.log('WebSocket Client Disconnected');
             this.setState({ ws: null });
         }
 
+        //Lorsque le serveur envoie un message, on l'ajoute à la conversation et on met à jour la liste des conversations pour afficher le dernier message. 
         ws.onmessage = (message) => {
             let json = JSON.parse(message.data);
             console.log("message received");
@@ -97,12 +115,17 @@ export default class ChatPage extends React.Component {
         }
     }
 
+    //Reconnexion au WebSocket si la connexion est perdue.
     componentDidUpdate() {
         if (this.state.ws == null) {
             this.connectToWebSocket();
         }
     }
 
+    /**
+     * Charge les messages de la conversation sélectionnée.
+     * @param {*} conversationId 
+     */
     loadConversation(conversationId) {
         this.setState({ loading: true });
         fetch(process.env.REACT_APP_API_URL + '/messages/conversations/' + conversationId, {
@@ -122,6 +145,9 @@ export default class ChatPage extends React.Component {
             });
     }
 
+    /**
+     * Demande au composant ConversationList de se rafraichir.
+     */
     didRefreshConversations = () => {
         this.setState({ refreshConversations: false });
     }

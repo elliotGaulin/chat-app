@@ -32,6 +32,9 @@ class App extends React.Component {
   });
 
 
+  /**
+   * Déconnecte l'utilisateur.
+   */
   logout() {
     this.setState({
       loggedIn: false,
@@ -40,6 +43,10 @@ class App extends React.Component {
     localStorage.removeItem('token');
   }
 
+  /**
+   * Sauvegarde l'utilisateur dans le state global.
+   * @param {*} user 
+   */
   saveUser = (user) => {
     this.setState({
       user: user
@@ -52,6 +59,7 @@ class App extends React.Component {
       <ThemeProvider theme={this.darkTheme}>
         <CssBaseline />
 
+        {/* Navbar */}
         <Box sx={{ flexGrow: 1, paddingTop: "64px"}} className="test" position="fixed">
           <AppBar>
             <Toolbar>
@@ -63,6 +71,7 @@ class App extends React.Component {
           </AppBar>
         </Box>
 
+        {/* Routes */}
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage saveUser={this.saveUser}/>} />

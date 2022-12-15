@@ -1,6 +1,10 @@
 import { ListItemButton, ListItemText } from '@mui/material';
 import React from 'react';
 
+/**
+ * Composant ConversationListItem. Il contient les informations d'une conversation.
+ * si on clique sur le composant, il charge la conversation.
+ */
 export default class ConversationListItem extends React.Component {
     render() {
         return (

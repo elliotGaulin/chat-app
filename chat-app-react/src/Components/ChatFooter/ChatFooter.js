@@ -2,6 +2,9 @@ import { Button, Paper, TextField } from '@mui/material';
 import React from 'react';
 import './ChatFooter.css'
 
+/**
+ * Composant ChatFooter. Il contient la zone de texte pour écrire un message et le bouton pour envoyer le message.
+ */
 export default class ChatFooter extends React.Component{
     constructor(props){
         super(props);
@@ -13,6 +16,10 @@ export default class ChatFooter extends React.Component{
         this.handleSend = this.handleSend.bind(this);
     }
 
+    /**
+     * Envoie le message en utilisant la fonction sendMessage du composant parent.
+     * @returns {void}
+     */
     handleSend = () => {
         if(this.state.message.length === 0){
             this.setState({

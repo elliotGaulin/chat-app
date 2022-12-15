@@ -5,6 +5,9 @@ import "./Login.css";
 import { Buffer } from "buffer";
 import LoadingSpinner from "../../Components/LoadingSpinner/LoadingSpinner";
 
+/**
+ * Page Login. Elle permet à l'utilisateur de se connecter.
+ */
 export default class LoginPage extends Component {
 
     constructor(props) {
@@ -18,6 +21,10 @@ export default class LoginPage extends Component {
         this.login = this.login.bind(this);
     }
 
+    /**
+     * Envoie les informations de connexion à l'API.
+     * Si les informations sont correctes, l'utilisateur est connecté.
+     */
     login(){
         console.log(process.env);
         this.setState({loading: true});
@@ -34,6 +41,8 @@ export default class LoginPage extends Component {
         .then(data => {
             console.log(data);
             this.setState({loading: false});
+
+            //Si l'utilisateur est connecté, on sauvegarde les informations de l'utilisateur dans le state global.
             if (data.user) {
                 this.props.saveUser(data.user);
                 let token = this.state.username + ":" + this.state.password;
@@ -53,6 +62,7 @@ export default class LoginPage extends Component {
 
 
     render() {
+        //Si l'utilisateur est connecté, on le redirige vers la page d'accueil.
         if(this.state.loggedIn) {
             return (
                 <Navigate to={"/"} />
