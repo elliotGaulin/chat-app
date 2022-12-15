@@ -36,11 +36,11 @@ wss.on('connection', async function connection(ws, req) {
 
     // On écoute les messages reçus
     ws.on('message', async (message) => {
+        let data = await JSON.parse(message);
 
         //Si premier mesage => processus d'authentification
         if (ws.firstMessage) {
             ws.firstMessage = false;
-            let data = await JSON.parse(message);
             let authRes = await authWs(data.token);
             if (authRes.message) {
                 ws.send(JSON.stringify(authRes));
@@ -50,8 +50,7 @@ wss.on('connection', async function connection(ws, req) {
         }
 
         //Traitement des messages
-        let data = await JSON.parse(message);
-        console.log('received: %s', data);
+        if(!data.message) return;
 
         await mongoose.connect(process.env.MONGO_URI + "/" + process.env.MONGO_DBNAME);
 

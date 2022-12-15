@@ -10,3 +10,9 @@
     padding: 20px;
     border-radius: 5px;
 }
+
+.error{
+    color: rgb(161, 0, 0);
+    font-size: 12px;
+    line-height: 1;
+}

@@ -17,6 +17,7 @@ export default class LoginPage extends Component {
             password: "",
             loggedIn: false,
             loading: false,
+            error: ""
         };
         this.login = this.login.bind(this);
     }
@@ -26,7 +27,10 @@ export default class LoginPage extends Component {
      * Si les informations sont correctes, l'utilisateur est connecté.
      */
     login(){
-        console.log(process.env);
+        if(this.state.username === "" || this.state.password === ""){
+            this.setState({error: "Please fill all the fields"});
+            return;
+        };
         this.setState({loading: true});
         fetch(process.env.REACT_APP_API_URL + '/users/login', {
             method: 'POST',
@@ -39,8 +43,10 @@ export default class LoginPage extends Component {
             })
          }).then(response => response.json())
         .then(data => {
-            console.log(data);
             this.setState({loading: false});
+            if(data.message == "Unauthorized") {
+                this.setState({error: "Login informations are incorrect"});
+            }
 
             //Si l'utilisateur est connecté, on sauvegarde les informations de l'utilisateur dans le state global.
             if (data.user) {
@@ -77,19 +83,26 @@ export default class LoginPage extends Component {
                             placeholder="Username"
                             fullWidth={true}
                             margin="dense"
-                            onChange={e => this.setState({
-                                username: e.target.value
-                            })}
+                            onChange={(e) => {
+                                this.setState({
+                                    username: e.target.value
+                                });
+                                this.setState({error: ""});
+                            }}
                         />
                         <Input
                             placeholder="Password"
                             type="password"
                             fullWidth={true}
                             margin="dense"
-                            onChange={e => this.setState({
-                                password: e.target.value
-                            })}
+                            onChange={(e) => {
+                                this.setState({
+                                    password: e.target.value
+                                });
+                                this.setState({error: ""});
+                            }}
                         />
+                        <span className="error">{this.state.error}</span><br/>
                         <Button type="button" color="primary" onClick={this.login}>
                             Log in
                         </Button>
