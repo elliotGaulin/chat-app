@@ -1,3 +1,8 @@
+/**
+ * Modèle représentant un message entre deux utilisateurs
+ */
+
+
 const mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;

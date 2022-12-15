@@ -3,6 +3,13 @@ const mongoose = require('mongoose');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
+/**
+ * Middleware d'authentification pour les requetes HTTP
+ * @param {*} req : La requete HTTP
+ * @param {*} res : Le reponse HTTP
+ * @param {*} next : La fonction suivante
+ */
+
 const auth = async (req, res, next) => {
     const { authorization } = req.headers;
     if (!authorization) {

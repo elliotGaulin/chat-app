@@ -1,5 +1,8 @@
-require('dotenv').config();
+/**
+ * Fichier contenat les routes pour la gestion des utilisateurs
+ */
 
+require('dotenv').config();
 const bcrypt = require('bcrypt');
 var express = require('express');
 const { mongoose } = require('mongoose');
@@ -7,7 +10,9 @@ var router = express.Router();
 const User = require('../models/User');
 const auth = require('../middlewares/auth');
 
-/* GET users listing. */
+/**
+ * Route pour l'incription d'un utilisateur
+ */
 router.post('/signup', async function (req, res, next) {
     await mongoose.connect(process.env.MONGO_URI + "/" + process.env.MONGO_DBNAME);
     try {
@@ -23,6 +28,9 @@ router.post('/signup', async function (req, res, next) {
     }
 });
 
+/**
+ * Route pour la connexion d'un utilisateur
+ */
 router.post('/login', async function (req, res, next) {
     await mongoose.connect(process.env.MONGO_URI + "/" + process.env.MONGO_DBNAME);
     try {
@@ -42,6 +50,9 @@ router.post('/login', async function (req, res, next) {
     }
 });
 
+/**
+ * Index des utilisateurs
+ */
 router.get('/', auth, async function (req, res, next) {
     return res.json({user: req.user});
 });

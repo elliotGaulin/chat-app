@@ -1,3 +1,7 @@
+/**
+ * Modèle représentant un utilisateur
+ */
+
 const mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;

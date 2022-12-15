@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
+/**
+ * Middleware d'authentification pour les websockets
+ * @param {string} token : Le token de l'utilisateur en base64 
+ * @returns 
+ */
 const authWs = async (token) => {
     const [username, password] = Buffer.from(token, 'base64').toString().split(':');
     
